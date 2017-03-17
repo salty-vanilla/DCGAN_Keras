@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from keras.optimizers import Adam
+import os
 try:
     import cPickle as pickle
 except:
     import pickle
 import gzip
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+from keras.optimizers import Adam
 from DCGAN import DCGAN
 from discriminator import discriminator_mnist
 from generator import generator_mnist
@@ -26,7 +29,11 @@ def data_init():
     train_set, valid_set, test_set = pickle.load(f, encoding='latin1')
 
     real_images, _ = train_set
-    real_images = (real_images.reshape(real_images.shape[0], 1, 28, 28).astype("float32") - 0.5) / 0.5
+
+    if K.image_dim_ordering() == 'th':
+        real_images = (real_images.reshape(real_images.shape[0], channel, height, width).astype("float32") - 0.5) / 0.5
+    else:
+        real_images = (real_images.reshape(real_images.shape[0], height, width, channel).astype("float32") - 0.5) / 0.5
 
     print("COMPLETE")
     return real_images

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from DCGAN import DCGAN
 from generator import generator_mnist
 

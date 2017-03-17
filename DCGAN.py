@@ -49,7 +49,7 @@ class DCGAN:
         inputs = Input(shape=(self.input_dim, ))
         generated = self.generator(inputs)
         discriminated = self.discriminator(generated)
-        self.dcgan = Model(input=inputs, output=discriminated)
+        self.dcgan = Model(inputs=inputs, outputs=discriminated)
         self.dcgan.compile(optimizer=opt_g_params['opt'],
                            loss=opt_g_params['loss'],
                            metrics=opt_g_params['metrics'])

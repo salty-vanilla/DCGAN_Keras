@@ -14,7 +14,7 @@ def generator_mnist(input_dim, plot_model=False):
     def init_normal(shape, name=None):
         return initializations.normal(shape, scale=0.02, name=name)
 
-    print("Building Generator ...")
+    print("Building Generator ...   ", end="")
     model = Sequential(name="generator")
     model.add(Dense(input_dim=input_dim, output_dim=(128 * 7 * 7), init=init_normal))
     model.add(Activation('relu'))
@@ -35,4 +35,5 @@ def generator_mnist(input_dim, plot_model=False):
         from keras.utils.visualize_util import plot
         plot(model, to_file='model_generator.png', show_shapes=True)
 
+    print("COMPLETE")
     return model

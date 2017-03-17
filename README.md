@@ -1,10 +1,10 @@
 # DCGAN  Keras
 
 ## Train
-`python train.py`
+`python train_mnist.py`
 
 ## Generate
-`python generate.py`
+`python generate_mnist.py`
 
 ## 動作環境
 * python 3.5

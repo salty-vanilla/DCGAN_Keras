@@ -1,6 +1,6 @@
 from keras.layers import (
     Dense,
-    Convolution2D,
+    Conv2D,
     UpSampling2D,
     Reshape,
     Activation
@@ -21,10 +21,10 @@ def generator_mnist(input_dim, plot_model=False):
         model.add(Reshape((7, 7, 128)))
 
     model.add(UpSampling2D(size=(2, 2)))
-    model.add(Convolution2D(64, (5, 5), padding='same'))
+    model.add(Conv2D(64, (5, 5), padding='same'))
     model.add(Activation('relu'))
     model.add(UpSampling2D(size=(2, 2)))
-    model.add(Convolution2D(1, (5, 5), padding='same'))
+    model.add(Conv2D(1, (5, 5), padding='same'))
     model.add(Activation('tanh'))
 
     if plot_model:

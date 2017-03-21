@@ -6,6 +6,7 @@ import sys
 import csv
 import os
 import cv2
+import math
 
 
 class DCGAN:
@@ -103,7 +104,7 @@ class DCGAN:
             # Create Noises
             noises = self.make_noises(size=(len(real_images), self.input_dim))
 
-            for iter_ in range(int(len(real_images) / batch_size)):
+            for iter_ in range(math.ceil(len(real_images) / batch_size)):
                 if verbose == 1:
                     sys.stdout.write("\riter : %d / " % (iter_ * batch_size))
                     sys.stdout.write("%d" % len(real_images))

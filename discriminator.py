@@ -1,9 +1,9 @@
 from keras.layers import (
-    Convolution2D,
+    Conv2D,
     LeakyReLU,
     Flatten,
     Dense,
-    Activation
+    Activation,
 )
 from keras.models import Sequential
 
@@ -11,9 +11,9 @@ from keras.models import Sequential
 def discriminator_mnist(input_shape, plot_model=False):
     print("Building Discriminator ...   ", end="")
     model = Sequential(name="discriminator")
-    model.add(Convolution2D(64, (5, 5), padding='same', strides=(2, 2), input_shape=input_shape))
+    model.add(Conv2D(64, (5, 5), padding='same', strides=(2, 2), input_shape=input_shape))
     model.add(LeakyReLU(0.2))
-    model.add(Convolution2D(128, (5, 5), padding='same', strides=(2, 2)))
+    model.add(Conv2D(128, (5, 5), padding='same', strides=(2, 2)))
     model.add(LeakyReLU(0.2))
     model.add(Flatten())
     model.add(Dense(1))

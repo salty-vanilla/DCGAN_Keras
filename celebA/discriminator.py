@@ -11,11 +11,35 @@ from keras.models import Sequential
 def discriminator_mnist(input_shape, plot_model=False):
     print("Building Discriminator ...   ", end="")
     model = Sequential(name="discriminator")
-    model.add(Conv2D(64, (5, 5), padding='same', strides=(2, 2), input_shape=input_shape))
+    # (160, 128, 3) to (80, 64, 32)
+    model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
     model.add(LeakyReLU(0.2))
-    model.add(Conv2D(128, (5, 5), padding='same', strides=(2, 2)))
+    model.add(Conv2D(32, (3, 3), strides=(2, 2), padding='same'))
     model.add(LeakyReLU(0.2))
+
+    # (80, 64, 32) to (40, 32, 64)
+    model.add(Conv2D(64, (3, 3), padding='same', input_shape=input_shape))
+    model.add(LeakyReLU(0.2))
+    model.add(Conv2D(64, (3, 3), strides=(2, 2), padding='same'))
+    model.add(LeakyReLU(0.2))
+
+    # (40, 32, 64) to (20, 16, 128)
+    model.add(Conv2D(128, (3, 3), padding='same', input_shape=input_shape))
+    model.add(LeakyReLU(0.2))
+    model.add(Conv2D(128, (3, 3), strides=(2, 2), padding='same'))
+    model.add(LeakyReLU(0.2))
+
+    # (20, 16, 128) to (10, 8, 256)
+    model.add(Conv2D(256, (3, 3), padding='same', input_shape=input_shape))
+    model.add(LeakyReLU(0.2))
+    model.add(Conv2D(256, (3, 3), strides=(2, 2), padding='same'))
+    model.add(LeakyReLU(0.2))
+
     model.add(Flatten())
+
+    # Input dim : (20480, )
+    model.add(Dense(1024))
+    model.add(LeakyReLU(0.2))
     model.add(Dense(1))
     model.add(Activation('sigmoid'))
 

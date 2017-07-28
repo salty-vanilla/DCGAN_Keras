@@ -9,7 +9,7 @@ from keras.models import Sequential
 from keras import backend as K
 
 
-def generator_mnist(input_dim, plot_model=False):
+def generator_mnist(input_dim, is_plot=False):
     print("Building Generator ...   ", end="")
     model = Sequential(name="generator")
     model.add(Dense(input_dim=input_dim, units=(128 * 7 * 7)))
@@ -27,9 +27,9 @@ def generator_mnist(input_dim, plot_model=False):
     model.add(Conv2D(1, (5, 5), padding='same'))
     model.add(Activation('tanh'))
 
-    if plot_model:
-        from keras.utils.vis_utils import plot_model as plot
-        plot(model, to_file='model_generator.png', show_shapes=True)
+    if is_plot:
+        from keras.utils.vis_utils import plot_model
+        plot_model(model, to_file='model_generator.png', show_shapes=True)
 
     print("COMPLETE")
     return model

@@ -33,7 +33,6 @@ def data_init():
         real_images = (real_images.reshape(real_images.shape[0], channel, height, width).astype("float32") - 0.5) / 0.5
     else:
         real_images = (real_images.reshape(real_images.shape[0], height, width, channel).astype("float32") - 0.5) / 0.5
-
     print("COMPLETE")
     return real_images
 
@@ -41,7 +40,7 @@ def data_init():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--latent_dim', '-ld', type=int, default=100)
-    parser.add_argument('--batch_size', '-b', type=int, default=64)
+    parser.add_argument('--batch_size', '-bs', type=int, default=300)
     parser.add_argument('--nb_epoch', '-e', type=int, default=50)
     parser.add_argument('--visualize_steps', '-vs', type=int, default=1)
     parser.add_argument('--save_steps', '-ss', type=int, default=1)
@@ -69,7 +68,7 @@ def main():
 
     dcgan = DCGAN(input_dim, generator, discriminator)
 
-    opt_d = Adam(lr=1e-5, beta_1=0.1)
+    opt_d = Adam(lr=1e-4, beta_1=0.1)
     opt_d_params = {'opt': opt_d,
                     'loss': 'binary_crossentropy',
                     'metrics': ['accuracy']}

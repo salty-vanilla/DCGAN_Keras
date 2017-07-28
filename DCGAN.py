@@ -224,9 +224,9 @@ class DCGAN:
     def make_noises(size, seed=None):
         if seed is not None:
             random_state = np.random.RandomState(seed)
-            noises = random_state.normal(0., 1., size=size)
+            noises = random_state.uniform(-1., 1., size=size)
         else:
-            noises = np.random.normal(0., 1., size=size)
+            noises = np.random.uniform(-1., 1., size=size)
         return noises
 
     @staticmethod

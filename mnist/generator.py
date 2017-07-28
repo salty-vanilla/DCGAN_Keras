@@ -23,19 +23,6 @@ def generator_mnist(input_dim, is_plot=False):
     else:
         model.add(Reshape((7, 7, 128)))
 
-    # model.add(Conv2DTranspose(64, (3, 3), strides=(2, 2), padding='same'))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(0.2))
-    # model.add(Conv2D(32, (3, 3), padding='same'))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(0.2))
-    #
-    # model.add(Conv2DTranspose(32, (3, 3), strides=(2, 2), padding='same'))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(0.2))
-    # model.add(Conv2D(1, (3, 3), padding='same'))
-    # model.add(Activation('tanh'))
-
     model.add(UpSampling2D(size=(2, 2)))
     model.add(Conv2D(64, (5, 5), padding='same'))
     model.add(Activation('relu'))

@@ -104,7 +104,10 @@ class DCGAN:
             # Create Noises
             noises = self.make_noises(size=(len(real_images), self.input_dim))
 
-            for iter_ in range(math.ceil(len(real_images) / batch_size)):
+            steps_per_epoch = len(real_images) // batch_size if len(real_images) % batch_size == 0 \
+                else len(real_images) // batch_size + 1
+
+            for iter_ in range(steps_per_epoch):
                 if verbose == 1:
                     sys.stdout.write("\riter : %d / " % (iter_ * batch_size))
                     sys.stdout.write("%d" % len(real_images))

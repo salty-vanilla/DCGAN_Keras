@@ -11,7 +11,7 @@ from keras.models import Sequential
 from keras import backend as K
 
 
-def generator_mnist(input_dim, is_plot=False):
+def get_generator(input_dim, is_plot=False):
     print("Building Generator ...   ", end="")
     model = Sequential(name="generator")
     model.add(Dense(input_dim=input_dim, units=(256 * 10 * 8)))

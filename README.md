@@ -14,7 +14,3 @@
 
 ### 生成結果
 <img src="./images/result.png">
-
-### 学習曲線
-<img src="./images/acc.png">
-<img src="./images/loss.png">

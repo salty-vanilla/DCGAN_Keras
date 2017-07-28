@@ -12,8 +12,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 from keras.optimizers import Adam
 from DCGAN import DCGAN
-from mnist.discriminator import discriminator_mnist
-from mnist.generator import generator_mnist
+from celebA.discriminator import get_discriminator
+from celebA.generator import get_generator
 from keras import backend as K
 
 
@@ -48,8 +48,8 @@ def main():
         input_shape_d = (height, width, channel)
 
     real_images = data_init()
-    generator = generator_mnist(input_dim=input_dim)
-    discriminator = discriminator_mnist(input_shape=input_shape_d)
+    generator = get_generator(input_dim=input_dim)
+    discriminator = get_discriminator(input_shape=input_shape_d)
 
     dcgan = DCGAN(input_dim, generator, discriminator)
 

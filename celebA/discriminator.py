@@ -8,7 +8,7 @@ from keras.layers import (
 from keras.models import Sequential
 
 
-def discriminator_mnist(input_shape, plot_model=False):
+def get_discriminator(input_shape, plot_model=False):
     print("Building Discriminator ...   ", end="")
     model = Sequential(name="discriminator")
     # (160, 128, 3) to (80, 64, 32)

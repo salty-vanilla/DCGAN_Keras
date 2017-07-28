@@ -64,6 +64,8 @@ def main():
 
     real_images = data_init()
     generator = generator_mnist(input_dim=input_dim)
+    # output model to json
+    open(os.path.join(param_dir, 'generator.json'), 'w').write(generator.to_json())
     discriminator = discriminator_mnist(input_shape=input_shape_d)
 
     dcgan = DCGAN(input_dim, generator, discriminator)

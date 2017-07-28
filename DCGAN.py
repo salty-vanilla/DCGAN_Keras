@@ -74,7 +74,6 @@ class DCGAN:
 
         visualize_params は以下のキーを持つ
         visualize_steps: 何epoch学習した後、生成するか
-        dst_dir: 生成した画像を保存するディレクトリパス
         nb_generate: 一度に何枚生成するか
         """
 
@@ -85,19 +84,17 @@ class DCGAN:
         visualize_params.setdefault('seed', 18)
 
         visualize_steps = visualize_params['visualize_steps']
-        visualize_dir = visualize_params['dst_dir']
         nb_generate = visualize_params['nb_generate']
         visualize_seed = visualize_params['seed']
 
         # Create Directories
-        if not os.path.exists(visualize_dir):
-            os.makedirs(visualize_dir, exist_ok=True)
-
         if not os.path.exists(param_dir):
             os.makedirs(param_dir, exist_ok=True)
 
         # Open csv
         if log_csv_path:
+            result_dir = os.path.dirname(log_csv_path)
+            os.makedirs(result_dir, exist_ok=True)
             f = open(log_csv_path, 'w')
             writer = csv.writer(f, lineterminator='\n')
 
@@ -132,8 +129,8 @@ class DCGAN:
 
             # Generate Images from Noises
             if epoch % visualize_steps == 0 or epoch == 1:
-                dst_dir = os.path.join(visualize_dir, "epoch_{}".format(epoch))
-                self.generate(dst_dir=dst_dir, nb_generate=nb_generate, seed=visualize_seed)
+                visualize_dir = os.path.join(result_dir, "epoch_{}".format(epoch))
+                self.generate(dst_dir=visualize_dir, nb_generate=nb_generate, seed=visualize_seed)
 
             # Save Parameters
             self.save_params(param_dir, epoch)

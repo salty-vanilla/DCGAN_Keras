@@ -36,7 +36,7 @@ class DataIterator(Iterator):
         image_path_batch = self.paths[index_array]
         image_batch = np.array([load_image(path, self.target_size, self.color_mode)
                                 for path in image_path_batch])
-        if current_batch_size != self.batch_size and not self.is_loop:
+        if self.batch_index == 0 and not self.is_loop:
             raise StopIteration
         return image_batch
 

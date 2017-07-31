@@ -138,6 +138,80 @@ class DCGAN:
         if log_csv_path:
             f.close()
 
+    def fit_generator(self, generator, samples_per_epoch, nb_epoch, batch_size,
+                      verbose=1, param_dir="./params", log_csv_path=None,
+                      save_steps=5, is_shuffle=True,
+                      is_separate=False, is_noisy_label=False, **visualize_params):
+        """
+        :param generator:
+        :param samples_per_epoch:
+        :param nb_epoch:
+        :param batch_size:
+        :param verbose:
+        :param param_dir:
+        :param log_csv_path:
+        :param save_steps:
+        :param is_shuffle:
+        :param is_separate:
+        :param is_noisy_label:
+        :param visualize_params:
+        :return:
+        """
+
+        self.save_steps = save_steps
+        visualize_params.setdefault('visualize_steps', 1)
+        visualize_params.setdefault('dst_dir', "./generated")
+        visualize_params.setdefault('nb_generate', 20)
+        visualize_params.setdefault('seed', 18)
+
+        visualize_steps = visualize_params['visualize_steps']
+        nb_generate = visualize_params['nb_generate']
+        visualize_seed = visualize_params['seed']
+
+        # Create Directories
+        if not os.path.exists(param_dir):
+            os.makedirs(param_dir, exist_ok=True)
+
+        # Open csv
+        if log_csv_path:
+            result_dir = os.path.dirname(log_csv_path)
+            os.makedirs(result_dir, exist_ok=True)
+            f = open(log_csv_path, 'w')
+            writer = csv.writer(f, lineterminator='\n')
+
+        # Train
+        for epoch in range(1, nb_epoch + 1):
+            print("\nepoch : {0}".format(epoch))
+
+            # Create Noises
+            noises = self.make_noises(size=(samples_per_epoch, self.input_dim))
+
+            for iter_, real_batch in enumerate(generator(batch_size, is_shuffle)):
+                # Create MiniBatch
+                noise_batch = noises[iter_ * batch_size: (iter_ + 1) * batch_size]
+
+                # Update
+                loss_g, acc_g, loss_d, acc_d = \
+                    self.update(real_batch, noise_batch, is_separate, is_noisy_label)
+
+                if verbose == 1:
+                    self.display(iter_, batch_size, samples_per_epoch, loss_g, acc_g, loss_d, acc_d)
+
+                # Write Datas to csv
+                if log_csv_path:
+                    writer.writerow([epoch, iter_, loss_g, acc_g, loss_d, acc_d])
+
+            # Generate Images from Noises
+            if epoch % visualize_steps == 0 or epoch == 1:
+                visualize_dir = os.path.join(result_dir, "epoch_{}".format(epoch))
+                self.generate(dst_dir=visualize_dir, nb_generate=nb_generate, seed=visualize_seed)
+
+            # Save Parameters
+            self.save_params(param_dir, epoch)
+
+        if log_csv_path:
+            f.close()
+
     def generate(self, dst_dir, nb_generate, seed=None):
         """
         一様乱数を生成し、その乱数から画像を生成する関数

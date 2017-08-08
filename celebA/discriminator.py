@@ -8,7 +8,7 @@ from keras.layers import (
 from keras.models import Sequential
 
 
-def get_discriminator(input_shape, plot_model=False):
+def get_discriminator(input_shape, is_plot=False):
     print("Building Discriminator ...   ", end="")
     model = Sequential(name="discriminator")
     # (160, 128, 3) to (80, 64, 32)
@@ -43,9 +43,9 @@ def get_discriminator(input_shape, plot_model=False):
     model.add(Dense(1))
     model.add(Activation('sigmoid'))
 
-    if plot_model:
-        from keras.utils.vis_utils import plot_model as plot
-        plot(model, to_file='model_generator.png', show_shapes=True)
+    if is_plot:
+        from keras.utils.vis_utils import plot_model
+        plot_model(model, to_file='model_discriminator.png', show_shapes=True)
 
     print("COMPLETE")
     return model

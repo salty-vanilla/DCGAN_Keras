@@ -185,9 +185,11 @@ class DCGAN:
 
             # Create Noises
             noises = self.make_noises(size=(samples_per_epoch, self.input_dim))
-
-            for iter_, real_batch in enumerate(generator(batch_size, is_shuffle)):
+            steps_per_epoch = samples_per_epoch // batch_size if samples_per_epoch % batch_size == 0 \
+                else samples_per_epoch // batch_size + 1
+            for iter_ in range(steps_per_epoch):
                 # Create MiniBatch
+                real_batch = generator.next()
                 noise_batch = noises[iter_ * batch_size: (iter_ + 1) * batch_size]
 
                 # Update

@@ -241,11 +241,11 @@ class DCGAN:
         if is_separate:
             # Update Discriminator
             generated = self.generator.predict(noise_batch)
-            y = np.array([0] * len(generated))
+            y = np.array([1] * len(generated))
             if is_noisy_label:
                 y = self.make_noisy_label(y)
             loss_d_f, acc_d_f = self.discriminator.train_on_batch(generated, y)
-            y = np.array([1] * len(real_batch))
+            y = np.array([0] * len(real_batch))
             if is_noisy_label:
                 y = self.make_noisy_label(y)
             loss_d_r, acc_d_r = self.discriminator.train_on_batch(real_batch, y)
@@ -255,14 +255,14 @@ class DCGAN:
             # Update Discriminator
             generated = self.generator.predict(noise_batch)
             x = np.append(generated, real_batch, axis=0)
-            y = np.array([0] * len(generated) + [1] * len(real_batch))
+            y = np.array([1] * len(generated) + [0] * len(real_batch))
             if is_noisy_label:
                 y = self.make_noisy_label(y)
             loss_d, acc_d = self.discriminator.train_on_batch(x, y)
         return loss_d, acc_d
 
     def update_generator(self, noise_batch, is_noisy_label):
-        y = np.array([1] * len(noise_batch))
+        y = np.array([0] * len(noise_batch))
         if is_noisy_label:
             y = self.make_noisy_label(y)
         loss_g, acc_g = self.dcgan.train_on_batch(noise_batch, y)

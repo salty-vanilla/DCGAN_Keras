@@ -59,16 +59,16 @@ def main():
     generator = get_generator(input_dim=input_dim)
     # output model to json
     open(os.path.join(param_dir, 'generator.json'), 'w').write(generator.to_json())
-    discriminator = get_discriminator(input_shape=input_shape_d)
+    discriminator = get_discriminator(input_shape=input_shape_d, is_plot=True)
 
     dcgan = DCGAN(input_dim, generator, discriminator)
 
-    opt_d = Adam(lr=5e-7, beta_1=0.1)
+    opt_d = Adam(lr=0.0002, beta_1=0.1)
     opt_d_params = {'opt': opt_d,
                     'loss': 'binary_crossentropy',
                     'metrics': ['accuracy']}
 
-    opt_g = Adam(lr=1e-6, beta_1=0.5)
+    opt_g = Adam(lr=0.002, beta_1=0.5)
     opt_g_params = {'opt': opt_g,
                     'loss': 'binary_crossentropy',
                     'metrics': ['accuracy']}
@@ -79,7 +79,7 @@ def main():
     dcgan.fit_generator(data_gen.flow(batch_size), samples_per_epoch=data_gen.data_num,
                         batch_size=batch_size, nb_epoch=nb_epoch,
                         param_dir=param_dir, log_csv_path=os.path.join(result_dir, "result.csv"),
-                        is_separate=True, is_noisy_label=True,
+                        is_separate=True, is_noisy_label=False,
                         save_steps=save_steps, visualize_steps=visualize_steps)
 
 

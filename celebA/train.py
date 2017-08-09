@@ -63,7 +63,7 @@ def main():
 
     dcgan = DCGAN(input_dim, generator, discriminator)
 
-    opt_d = Adam(lr=1e-6, beta_1=0.5)
+    opt_d = Adam(lr=2e-5, beta_1=0.5)
     opt_d_params = {'opt': opt_d,
                     'loss': 'binary_crossentropy',
                     'metrics': ['accuracy']}
